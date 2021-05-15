@@ -7,7 +7,7 @@ import cors from 'cors';
 import './database';
 import './shared/container';
 import { router } from './routes';
-import { createConnection } from './database/';
+import { createConnection } from './database';
 import { AppError } from './shared/errors/AppError';
 
 createConnection()

@@ -21,12 +21,13 @@ describe("Create User Controller", () => {
 
  it("Should be able create a new User", async () => {
 
-  const response = await request(app).post("/users").send({
+  const response = await request(app).post("/api/v1/users").send({
    name: "test",
    email: "teste@test.com",
    password: "12345"
   })
 
+  console.log(response.body)
   expect(response.status).toBe(201)
  })
 })
