@@ -23,11 +23,24 @@ describe("Create User Controller", () => {
 
   const response = await request(app).post("/api/v1/users").send({
    name: "test",
-   email: "teste@test.com",
+   email: "teste@teste.com",
    password: "12345"
   })
 
-  console.log(response.body)
   expect(response.status).toBe(201)
  })
-})
+
+ it("Should not be able to create a new user with existing email", async () => {
+
+  const response = await request(app).post("/api/v1/users").send({
+   name: "test2",
+   email: "teste@teste.com",
+   password: "12345"
+  })
+
+  expect(response.status).toBe(400);
+  expect(response.body).toMatchObject({
+   message: "User already exists"
+  });
+ });
+});
