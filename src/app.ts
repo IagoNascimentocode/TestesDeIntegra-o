@@ -4,7 +4,7 @@ import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
 
-import { createConnection } from './database';
+import createConnection from './database';
 import dotenv from 'dotenv';
 dotenv.config();
 import './shared/container';

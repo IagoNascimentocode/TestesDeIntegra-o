@@ -2,9 +2,8 @@ import { Connection } from 'typeorm';
 import request from 'supertest';
 
 import authConfig from '../config/auth';
-import { createConnection } from '../database';
+import createConnection from '../database';
 import { app } from '../app';
-
 import { UsersRepository } from '../modules/users/repositories/UsersRepository'
 import { hash } from 'bcryptjs'
 import { verify } from 'jsonwebtoken'
@@ -17,29 +16,28 @@ describe("Authenticate User Controller", () => {
 
  beforeAll(async () => {
   connection = await createConnection();
-  connection.runMigrations()
+  await connection.runMigrations();
  })
 
  afterAll(async () => {
-  connection.dropDatabase();
-  connection.close();
+  await connection.dropDatabase();
+  await connection.close();
  })
 
  it("Should be able to authenticate a existing user ans return a valid jwt token", async () => {
   const usersRepository = new UsersRepository();
 
   const user = await usersRepository.create({
-   name: "Test2",
-   email: "teste2@teste.com",
+   name: "Test",
+   email: "teste@teste.com",
    password: await hash("12345", 8)
   })
 
   const response = await request(app).post("/api/v1/sessions").send({
-   email: "teste2@teste.com",
+   email: "teste@teste.com",
    password: "12345"
   })
 
-  console.log(response.body)
   expect(response.status).toBe(200)
   expect(response.body).toEqual({
    user: {
@@ -53,5 +51,25 @@ describe("Authenticate User Controller", () => {
   expect(() => {
    verify(response.body.token, authConfig.jwt.secret);
   }).not.toThrowError();
+ })
+
+ it("Should be able to authenticate a user with wrong password", async () => {
+  const usersRepository = new UsersRepository();
+
+  await usersRepository.create({
+   name: "Test2",
+   email: "teste2@teste.com",
+   password: await hash("12345", 8)
+  })
+
+  const response = await request(app).post("/api/v1/sessions").send({
+   email: "teste2@teste.com",
+   password: "54321"
+  })
+
+  expect(response.status).toBe(401);
+  expect(response.body).toMatchObject({
+   message: "Incorrect email or password"
+  })
  })
 })
