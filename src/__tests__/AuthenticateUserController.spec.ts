@@ -53,7 +53,7 @@ describe("Authenticate User Controller", () => {
   }).not.toThrowError();
  })
 
- it("Should be able to authenticate a user with wrong password", async () => {
+ it("Should not be able to authenticate a user with wrong password", async () => {
   const usersRepository = new UsersRepository();
 
   await usersRepository.create({
