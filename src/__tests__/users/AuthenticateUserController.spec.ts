@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm';
 import request from 'supertest';
 
-import authConfig from '../config/auth';
-import createConnection from '../database';
-import { app } from '../app';
-import { UsersRepository } from '../modules/users/repositories/UsersRepository'
+import authConfig from '../../config/auth';
+import createConnection from '../../database';
+import { app } from '../../app';
+import { UsersRepository } from '../../modules/users/repositories/UsersRepository'
 import { hash } from 'bcryptjs'
 import { verify } from 'jsonwebtoken'
 

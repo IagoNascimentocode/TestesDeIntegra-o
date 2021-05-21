@@ -1,14 +1,13 @@
-import { Connection } from "typeorm";
+import { Connection, createConnection } from "typeorm";
 import request from "supertest";
 
 import { v4 as uuidv4 } from "uuid"
-import authConfig from '../config/auth';
-import createConnection from '../database';
-import { app } from '../app';
-import { UsersRepository } from "../modules/users/repositories/UsersRepository";
+import authConfig from "../../config/auth"
 import { hash } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
-import { response } from "express";
+import { UsersRepository } from "../../modules/users/repositories/UsersRepository";
+import { app } from "../../app";
+
 
 let connection: Connection;
 
