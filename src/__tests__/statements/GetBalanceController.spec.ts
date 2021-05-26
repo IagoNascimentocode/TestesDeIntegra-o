@@ -89,7 +89,6 @@ describe("Get Balance", () => {
    .send()
 
   expect(response.status).toBe(200)
-  console.log(response.body.balance)
   expect.arrayContaining([statement1, statement2, statement3])
  });
 
