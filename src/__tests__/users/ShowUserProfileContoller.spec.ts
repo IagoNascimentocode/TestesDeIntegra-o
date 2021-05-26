@@ -44,7 +44,6 @@ describe("Show User Profile", () => {
     Authorization: `Bearer ${token}`
    }).send()
 
-  console.log(response.body)
   expect(response.status).toBe(200)
  })
 
@@ -68,9 +67,5 @@ describe("Show User Profile", () => {
   expect(response.body).toMatchObject({
    message: "User not found"
   })
-
-
  })
-
-
 })
